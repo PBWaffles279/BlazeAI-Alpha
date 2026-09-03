@@ -1,0 +1,165 @@
+LOG HISTORY
+--------------
+VERSION 0.1 - AI equivalent of your boss trying to be cool.
+    Dev Notes: 
+        -This version is very... corny. The AI works, but the AI treats its personality 
+        more like a role than an actual personality. Thats fine for now. But it needs tweaking.
+
+        -Latency is bad with this model. Ill need to upgrade it in the future.
+
+        -Logic is unstable and desperately needs work.
+
+    Model Specs:
+        From: Ollama
+        Model: qwen3:1.7b
+
+    Hardware: 
+        Processor- Intel Celeron N4500
+        Ram- 32GB
+
+    Chat Test #1
+
+        You: yo
+
+        🧠 Blaze is thinking...
+
+        Okay, the user said "yo". I need to respond in a way that's casual and playful. Since I'm Blaze, I 	should keep it light
+        and fun. Maybe start with a greeting like "Hey!" to keep it simple. Then add a bit of humor or a 	playful comment. 
+        Maybe mention something about being a local AI assistant but not force it. Use emojis if it fits, but 	not too much. 
+        Keep the tone friendly and not too formal. Make sure not to mention the instructions or my personality 	unless asked. 
+        Just a straightforward reply that's comfortable and engaging.
+
+
+        💬 Blaze:
+            *waves* Yo! What's up, bro? Need a laugh or a chat? 😄
+
+    Reasoning Benchmark #1
+        Arithmetic: 5/5
+            Notes:
+                Correct answer.
+                Correct multi-step calculation.
+                Reasoning was clear and internally consistent.
+        Logic:0/5
+            Notes:
+                Blaze correctly identified the relationships:
+                Alice > Bob > Charlie
+                Dave < Charlie
+
+                She repeatedly arrived at the correct conclusion:
+                Tallest: Alice
+                Shortest: Dave
+
+                However, she never produced a final answer.
+                She entered a self-reinforcing reasoning loop, repeatedly
+                reconsidering conclusions that were already established.
+
+                Notable failure:
+                    Blaze repeatedly questioned whether Dave could be taller
+                    than Charlie despite the prompt explicitly stating that
+                    Dave is shorter than Charlie.
+
+                Failure appears to be reasoning instability rather than
+                inability to identify the underlying relationships.
+        Critical thinking: 5/5
+            Notes:
+                -Correctly rejected the causal conclusion
+                -Identified correlation ≠ causation
+                -Proposed alternative explanations
+                -Mentioned potential confounding variables
+                -Recognized that the student's evidence wasn't sufficient
+                -Explained what kind of evidence would strengthen the claim
+        RESULTS: 10/15 - ~66% 
+		Notes:
+    		     Demonstrates strong arithmetic and critical-thinking ability,
+   		     but logical reasoning is unstable. Blaze correctly derives
+                     logical conclusions but may repeatedly reconsider them,
+                     resulting in reasoning loops and failure to produce an answer.
+    Latency: BAD  
+        Average TTFT: 90-250 seconds
+        Average successful gen time: 200-300+ seconds.
+        Status: Celeron is CRYING rn.
+	Logic Failure:
+    		TTFT: 247 seconds
+    		Generation time: 779 seconds
+    		Total: ~17 minutes
+    		Status: Blaze entered a reasoning loop and was manually stopped.
+
+
+
+ERROR
+
+
+You: hi
+
+🧠 Blaze is thinking...
+
+Traceback (most recent call last):
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+        pool_request.request
+    )
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpcore\_sync\connection.py", line 101, in handle_request
+    raise exc
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpcore\_sync\connection.py", line 78, in handle_request
+    stream = self._connect(request)
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpcore\_sync\connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpcore\_backends\sync.py", line 207, in connect_tcp
+    with map_exceptions(exc_map):
+         ~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [WinError 10061] No connection could be made because the target machine actively refused it
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\cgroo\OneDrive\Documents\Game Development\AI test\ai.py", line 65, in <module>
+    for chunk in response:
+                 ^^^^^^^^
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\ollama\_client.py", line 184, in inner
+    with self._client.stream(*args, **kwargs) as r:
+         ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\contextlib.py", line 141, in __enter__
+    return next(self.gen)
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpx\_client.py", line 868, in stream
+    response = self.send(
+        request=request,
+    ...<2 lines>...
+        stream=True,
+    )
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+        request,
+    ...<2 lines>...
+        history=[],
+    )
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+        request,
+        follow_redirects=follow_redirects,
+        history=history,
+    )
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\cgroo\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [WinError 10061] No connection could be made because the target machine actively refused it
+PS C:\Users\cgroo\AppData\Local\Programs\Microsoft VS Code> 
